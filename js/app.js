@@ -1,8 +1,8 @@
 // ******************   VARIABLES de selectores  ************************
 const marca = document.querySelector('#marca');
 const year = document.querySelector('#year');
-const minimo = document.querySelector('#minimo');
-const maximo = document.querySelector('#maximo');
+const minimoPrecio = document.querySelector('#minimo');
+const maximoPrecio = document.querySelector('#maximo');
 const puertas = document.querySelector('#puertas');
 const transmision = document.querySelector('#transmision');
 const color = document.querySelector('#color');
@@ -13,7 +13,7 @@ const resultado = document.querySelector('#resultado');
 const max = new Date().getFullYear();
 const min = max - 10;
 
-// Generar un OBJETO con la busqueda
+// Generar un OBJETO con la busqueda para leer los datos
 const datosBusqueda = {
   marca: '',
   year: '',
@@ -38,14 +38,17 @@ document.addEventListener('DOMContentLoaded', () => {
 // Event listener para los select de búsqueda
 marca.addEventListener('change', (e) => {
   datosBusqueda.marca = e.target.value;
+
+  filtrarAuto();
+
 });
 year.addEventListener('change', (e) => {
   datosBusqueda.year = e.target.value;
 });
-minimo.addEventListener('change', (e) => {
+minimoPrecio.addEventListener('change', (e) => {
   datosBusqueda.minimo = e.target.value;
 });
-maximo.addEventListener('change', (e) => {
+maximoPrecio.addEventListener('change', (e) => {
   datosBusqueda.maximo = e.target.value;
 });
 puertas.addEventListener('change', (e) => {
@@ -94,5 +97,22 @@ function llenarSelect() {
 
   }
 
+}
+
+/**************************************************************************************************/
+
+// Función que filtra según la busqueda
+function filtrarAuto() {
+  const resultado = autos.filter(filtrarMarca);
+
+  console.log(resultado);
+
+}
+
+function filtrarMarca(auto) {
+  if (datosBusqueda.marca) {
+    return auto.marca === datosBusqueda.marca;
+  }
+  return auto;
 }
 
