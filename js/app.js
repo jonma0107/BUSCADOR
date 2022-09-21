@@ -50,20 +50,32 @@ year.addEventListener('change', (e) => {
 });
 minimoPrecio.addEventListener('change', (e) => {
   datosBusqueda.minimo = e.target.value;
+
+  filtrarAuto();
+
 });
 maximoPrecio.addEventListener('change', (e) => {
   datosBusqueda.maximo = e.target.value;
+
+  filtrarAuto();
+
 });
 puertas.addEventListener('change', (e) => {
-  datosBusqueda.puertas = e.target.value;
+  datosBusqueda.puertas = parseInt(e.target.value);
+
+  filtrarAuto();
+
 });
 transmision.addEventListener('change', (e) => {
   datosBusqueda.transmision = e.target.value;
+
+  filtrarAuto();
+
 });
 color.addEventListener('change', (e) => {
   datosBusqueda.color = e.target.value;
 
-  console.log(datosBusqueda);
+  filtrarAuto();
 });
 
 
@@ -73,7 +85,7 @@ color.addEventListener('change', (e) => {
 // Función que MUESTRA LOS RESULTADOS
 function mostrarAutos(autos) {
 
-  limpiarHTML(); // Limpiar el HTML previo
+  limpiarHTML(); // eLIMINA el HTML previo
 
   autos.forEach(auto => {
 
@@ -120,7 +132,7 @@ function llenarSelect() {
 
 // Función que filtra según la busqueda
 function filtrarAuto() {
-  const resultado = autos.filter(filtrarMarca).filter(filtrarYear); // Función de alto nivel o Funciones de orden mayor (higher order functions)
+  const resultado = autos.filter(filtrarMarca).filter(filtrarYear).filter(filtrarMinimo).filter(filtrarMaximo).filter(filtrarPuertas).filter(filtrarTransmi).filter(filtrarColor); // Función de alto nivel o Funciones de orden mayor (higher order functions)
 
   mostrarAutos(resultado);
 
@@ -137,7 +149,41 @@ function filtrarYear(auto) {
   if (datosBusqueda.year) {
     return auto.year === datosBusqueda.year;
   }
-  return auto
+  return auto;
+}
 
+function filtrarMinimo(auto) {
+  if (datosBusqueda.minimo) {
+    return auto.precio >= datosBusqueda.minimo;
+  }
+  return auto;
+}
+
+function filtrarMaximo(auto) {
+  if (datosBusqueda.maximo) {
+    return auto.precio <= datosBusqueda.maximo;
+  }
+  return auto;
+}
+
+function filtrarPuertas(auto) {
+  if (datosBusqueda.puertas) {
+    return auto.puertas === datosBusqueda.puertas;
+  }
+  return auto;
+}
+
+function filtrarTransmi(auto) {
+  if (datosBusqueda.transmision) {
+    return auto.transmision === datosBusqueda.transmision;
+  }
+  return auto;
+}
+
+function filtrarColor(auto) {
+  if (datosBusqueda.color) {
+    return auto.color === datosBusqueda.color;
+  }
+  return auto;
 }
 
