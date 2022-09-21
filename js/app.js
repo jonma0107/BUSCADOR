@@ -8,7 +8,7 @@ const transmision = document.querySelector('#transmision');
 const color = document.querySelector('#color');
 
 // Contenedor para los resultados
-const resultado = document.querySelector('#resultado');
+const resultadoHTML = document.querySelector('#resultado');
 
 const max = new Date().getFullYear();
 const min = max - 10;
@@ -61,7 +61,7 @@ maximoPrecio.addEventListener('change', (e) => {
 
 });
 puertas.addEventListener('change', (e) => {
-  datosBusqueda.puertas = parseInt(e.target.value);
+  datosBusqueda.puertas = e.target.value;
 
   filtrarAuto();
 
@@ -99,7 +99,7 @@ function mostrarAutos(autos) {
     `;
 
     // Insertar en el HTML
-    resultado.appendChild(autoHTML);
+    resultadoHTML.appendChild(autoHTML);
 
 
   })
@@ -108,8 +108,8 @@ function mostrarAutos(autos) {
 
 // Función LIMPIAR HTML
 function limpiarHTML() {
-  while (resultado.firstChild) {
-    resultado.removeChild(resultado.firstChild);
+  while (resultadoHTML.firstChild) {
+    resultadoHTML.removeChild(resultadoHTML.firstChild);
   }
 }
 
@@ -134,7 +134,23 @@ function llenarSelect() {
 function filtrarAuto() {
   const resultado = autos.filter(filtrarMarca).filter(filtrarYear).filter(filtrarMinimo).filter(filtrarMaximo).filter(filtrarPuertas).filter(filtrarTransmi).filter(filtrarColor); // Función de alto nivel o Funciones de orden mayor (higher order functions)
 
-  mostrarAutos(resultado);
+  if (resultado.length) {
+    mostrarAutos(resultado);
+  } else {
+    noResultados();
+  }
+
+}
+
+// Función de mensaje que no encontró resultados
+function noResultados() {
+
+  limpiarHTML();
+
+  const noResultado = document.createElement('div');
+  noResultado.classList.add('alerta', 'error');
+  noResultado.textContent = 'No hay Resultados, intenta con otros parámetros de búsqueda';
+  resultadoHTML.appendChild(noResultado)
 
 }
 
@@ -147,7 +163,7 @@ function filtrarMarca(auto) {
 
 function filtrarYear(auto) {
   if (datosBusqueda.year) {
-    return auto.year === datosBusqueda.year;
+    return auto.year === datosBusqueda.year; // Con operador estricto, dar parseInt
   }
   return auto;
 }
@@ -168,7 +184,7 @@ function filtrarMaximo(auto) {
 
 function filtrarPuertas(auto) {
   if (datosBusqueda.puertas) {
-    return auto.puertas === datosBusqueda.puertas;
+    return auto.puertas == datosBusqueda.puertas; // Sin operador estricto ==
   }
   return auto;
 }
