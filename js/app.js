@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-// Event listener para los select de búsqueda
+// *********************  Event listener para los select de búsqueda  *********************
 marca.addEventListener('change', (e) => {
   datosBusqueda.marca = e.target.value;
 
@@ -43,7 +43,10 @@ marca.addEventListener('change', (e) => {
 
 });
 year.addEventListener('change', (e) => {
-  datosBusqueda.year = e.target.value;
+  datosBusqueda.year = parseInt(e.target.value);
+
+  filtrarAuto();
+
 });
 minimoPrecio.addEventListener('change', (e) => {
   datosBusqueda.minimo = e.target.value;
@@ -117,7 +120,7 @@ function llenarSelect() {
 
 // Función que filtra según la busqueda
 function filtrarAuto() {
-  const resultado = autos.filter(filtrarMarca);
+  const resultado = autos.filter(filtrarMarca).filter(filtrarYear); // Función de alto nivel o Funciones de orden mayor (higher order functions)
 
   mostrarAutos(resultado);
 
@@ -128,5 +131,13 @@ function filtrarMarca(auto) {
     return auto.marca === datosBusqueda.marca;
   }
   return auto;
+}
+
+function filtrarYear(auto) {
+  if (datosBusqueda.year) {
+    return auto.year === datosBusqueda.year;
+  }
+  return auto
+
 }
 
